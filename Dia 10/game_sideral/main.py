@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+from pygame import mixer
 
 
 # Init Paygame
@@ -15,6 +16,11 @@ pygame.display.set_caption('Space Invader')
 icon = pygame.image.load('images/ovni.png')
 pygame.display.set_icon(icon)
 background = pygame.image.load('images/space800x600.jpg')
+
+# Music
+mixer.music.load('sounds/ultimo-minuto-rcn.mp3')
+mixer.music.set_volume(0.5)
+mixer.music.play(-1)
 
 # Player var
 img_player = pygame.image.load('images/cohete.png')
@@ -32,9 +38,13 @@ invader_y = []
 invader_x_change = []
 invader_y_change = []
 invaders_quantity = 10
+invaders_base_quantity = 10
+list_invaders = ['alien', 'alien_b', 'alien_c']
+
+invader = random.randint(0, len(list_invaders)-1)
 
 for e in range(invaders_quantity):
-    img_invader.append(pygame.image.load('images/alien.png'))
+    img_invader.append(pygame.image.load(f'images/aliens/{list_invaders[invader]}.png'))
     invader_x.append(random.randint(0, 736))
     invader_y.append(random.randint(50, 200))
     invader_x_change.append(0.3)
@@ -112,6 +122,14 @@ def game_over(x, y):
 # Loop the game
 in_execution = True
 while in_execution:
+    if invaders_quantity == 0:
+        invaders_quantity = invaders_base_quantity * 2
+        for e in range(invaders_quantity):
+            img_invader.append(pygame.image.load('images/aliens/alien.png'))
+            invader_x.append(random.randint(0 , 736))
+            invader_y.append(random.randint(50 , 200))
+            invader_x_change.append(0.3)
+            invader_y_change.append(30)
 
     # Change color screen in RGB
     # screen.fill((101, 75, 247))
@@ -134,9 +152,12 @@ while in_execution:
                 player_x_change = 0.5
 
             if event.key == pygame.K_SPACE:
+                shoot_sound = mixer.Sound('sounds/shoot.mp3')
+                shoot_sound.play()
                 if count_lives <= 0:
                     count_shoot = 0
                     count_lives = 3
+
                 elif not visible_bullet:
                     bullet_y = player_y
                     bullet_x = player_x
@@ -175,7 +196,6 @@ while in_execution:
         invader_x[e] += invader_x_change[e]
 
     # Inside screen invader
-
         if invader_x[e] <= 0:
             invader_x_change[e] = alien_movement_speed
             invader_y[e] += invader_y_change[e]
@@ -187,9 +207,14 @@ while in_execution:
         # Collision shoot invader
         collision_shoot = is_collision(invader_x[e], invader_y[e], bullet_x, bullet_y)
         if collision_shoot:
+            collision_sound = mixer.Sound('sounds/blast.mp3')
+            collision_sound.play()
             bullet_y = player_y
             visible_bullet = False
             count_shoot += 1
+
+            invaders_quantity -= 1
+
             invader_x[e] = random.randint(0, 736)
             invader_y[e] = random.randint(50, 200)
         invader(invader_x[e], invader_y[e], e)
@@ -197,6 +222,8 @@ while in_execution:
         # Collision player invader
         collision_player_invader = is_collision(invader_x[e], invader_y[e], player_x, player_y)
         if collision_player_invader:
+            collision_sound = mixer.Sound('sounds/blast.mp3')
+            collision_sound.play()
             if count_lives >= 1:
                 count_lives -= 1
                 player_x = 368
