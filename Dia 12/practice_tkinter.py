@@ -14,7 +14,7 @@ app.config(bg='burlywood')
 top_panel = Frame(app, bd=1, relief=FLAT)
 top_panel.pack(side=TOP)
 # label title
-label_title = Label(top_panel, text='Sistema facturacion', fg='azure4', font=('Dosis', 58), bg='burlywood', width=27)
+label_title = Label(top_panel, text='Sistema facturacion', fg='azure4', font=('Dosis', 45), bg='burlywood', width=27)
 label_title.grid(row=0, column=0)
 
 # left panel
@@ -45,6 +45,42 @@ invoice_panel.pack()
 # buttons panel
 buttons_panel = Frame(right_panel, bd=1, relief=FLAT, bg='burlywood')
 buttons_panel.pack()
+
+# products list
+food_list = ['pollo', 'cordero', 'ternera', 'sardina', 'salmon', 'mero', 'kebab', 'pizza Margarita', 'chicharron' ]
+drinks_list = ['agua', 'refresco', 'soda', 'jugo', 'cafe', 'te', 'vino1','vino2', 'vodka']
+deserts_list = ['mouse', 'tartaleta', 'gelatina', 'flan', 'helado1', 'helado2', 'tarta1', 'tarta2', 'piña']
+
+# checkbuttons
+# itams foods
+var_food= []
+count = 0
+for food in food_list:
+    var_food.append('')
+    var_food[count] = IntVar()
+    food = Checkbutton(food_panel, text=food.title(), font=('Dosis', 19, 'bold'), onvalue=1, offvalue=0, variable=var_food[count])
+    food.grid(row=count, column=0, sticky=W)
+    count += 1
+
+# itams foods
+var_drink = []
+count = 0
+for drink in drinks_list:
+    var_drink.append('')
+    var_drink[count] = IntVar()
+    drink = Checkbutton(drink_panel, text=drink.title(), font=('Dosis', 19, 'bold'), onvalue=1, offvalue=0, variable=var_drink[count])
+    drink.grid(row=count, column=0, sticky=W)
+    count += 1
+
+# itams foods
+var_desert = []
+count = 0
+for desert in deserts_list:
+    var_desert.append('')
+    var_desert[count] = IntVar()
+    desert= Checkbutton(desert_panel, text=desert.title(), font=('Dosis', 19, 'bold'), onvalue=1, offvalue=0, variable=var_desert[count])
+    desert.grid(row=count, column=0, sticky=W)
+    count += 1
 
 # prevent it from closing the app
 app.mainloop()
