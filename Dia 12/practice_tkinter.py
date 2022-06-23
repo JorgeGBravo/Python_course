@@ -18,6 +18,40 @@ def result_calculator():
     view_calculator.delete(0, END)
     view_calculator.insert(0, result)
     operator = ''
+def check_check():
+    x = 0
+    for c in frame_food:
+        if var_food[x].get() == 1:
+            frame_food[x].config(state=NORMAL)
+            frame_food[x].delete(0, END)
+            frame_food[x].focus()
+        else:
+            frame_food[x].config(state=DISABLED)
+            text_food[x].set('0')
+        x += 1
+    x = 0
+    for c in frame_drink:
+        if var_drink[x].get() == 1:
+            frame_drink[x].config(state=NORMAL)
+            frame_drink[x].delete(0, END)
+            frame_drink[x].focus()
+        else:
+            frame_drink[x].config(state=DISABLED)
+            text_drink[x].set('0')
+        x += 1
+    x = 0
+    for c in frame_desert:
+        if var_desert[x].get() == 1:
+            frame_desert[x].config(state=NORMAL)
+            frame_desert[x].delete(0, END)
+            frame_desert[x].focus()
+        else:
+            frame_desert[x].config(state=DISABLED)
+            text_desert[x].set('0')
+        x += 1
+
+def validate_entry(text):
+    return text.isdecimal()
 
 # Init tkinter
 app = Tk()
@@ -97,7 +131,7 @@ deserts_list = ['mouse', 'tartaleta', 'gelatina', 'flan', 'helado1', 'helado2', 
 
 # items foods
 var_food = []
-frame_button = []
+frame_food = []
 text_food = []
 count = 0
 for food in food_list:
@@ -105,28 +139,30 @@ for food in food_list:
     # make checkbuttons
     var_food.append('')
     var_food[count] = IntVar()
-    food = Checkbutton(food_panel, text=food.title(),
+    food = Checkbutton(food_panel,
+                       text=food.title(),
                        font=('Dosis', 19, 'bold'),
                        onvalue=1,
                        offvalue=0,
-                       variable=var_food[count])
+                       variable=var_food[count],
+                       command=check_check)
     food.grid(row=count,
               column=0,
               sticky=W)
 
     # make foods-buttons
-    frame_button.append('')
+    frame_food.append('')
     text_food.append('')
     text_food[count] = StringVar()
     text_food[count].set('0')
-    frame_button[count] = Entry(food_panel,
-                                font=('Dosis', 18, 'bold'),
-                                bd=1,
-                                width=4,
-                                state=DISABLED,
-                                textvariable=text_food[count])
-    frame_button[count].grid(row=count,
-                             column=1)
+    frame_food[count] = Entry(food_panel,
+                              font=('Dosis', 18, 'bold'),
+                              bd=1,
+                              width=4,
+                              state=DISABLED,
+                              textvariable=text_food[count])
+    frame_food[count].grid(row=count,
+                           column=1)
     count += 1
 
 
@@ -145,7 +181,8 @@ for drink in drinks_list:
                         font=('Dosis', 19, 'bold'),
                         onvalue=1,
                         offvalue=0,
-                        variable=var_drink[count])
+                        variable=var_drink[count],
+                        command=check_check)
     drink.grid(row=count,
                column=0,
                sticky=W)
@@ -155,14 +192,14 @@ for drink in drinks_list:
     text_drink.append('')
     text_drink[count] = StringVar()
     text_drink[count].set('0')
-    frame_button[count] = Entry(drink_panel,
-                                font=('Dosis', 18, 'bold'),
-                                bd=1,
-                                width=4,
-                                state=DISABLED,
-                                textvariable=text_drink[count])
-    frame_button[count].grid(row=count,
-                             column=1)
+    frame_drink[count] = Entry(drink_panel,
+                               font=('Dosis', 18, 'bold'),
+                               bd=1,
+                               width=4,
+                               state=DISABLED,
+                               textvariable=text_drink[count])
+    frame_drink[count].grid(row=count,
+                            column=1)
     count += 1
 
 # items deserts
@@ -180,7 +217,8 @@ for desert in deserts_list:
                          font=('Dosis', 19, 'bold'),
                          onvalue=1,
                          offvalue=0,
-                         variable=var_desert[count])
+                         variable=var_desert[count],
+                         command=check_check)
     desert.grid(row=count,
                 column=0,
                 sticky=W)
@@ -190,13 +228,13 @@ for desert in deserts_list:
     text_desert.append('')
     text_desert[count] = StringVar()
     text_desert[count].set('0')
-    frame_button[count] = Entry(desert_panel,
+    frame_desert[count] = Entry(desert_panel,
                                 font=('Dosis', 18, 'bold'),
                                 bd=1,
                                 width=4,
                                 state=DISABLED,
                                 textvariable=text_desert[count])
-    frame_button[count].grid(row=count,
+    frame_desert[count].grid(row=count,
                              column=1)
     count += 1
 # variables
