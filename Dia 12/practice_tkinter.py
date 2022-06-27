@@ -1,10 +1,14 @@
 from tkinter import *
+import random
+import datetime
 
 operator = ''
 tax = 0.4
 price_food = [1.32, 1.65, 2.31, 3.22, 1.22, 1.99, 2.05, 2.65, 1.2]
 price_drink = [0.25, 0.99, 1.21, 1.54, 1.08, 1.10, 2.00, 1.58, 1.32]
 price_dessert = [1.54, 1.68, 1.32, 1.97, 2.55, 2.14, 1.94, 1.74, 2.34]
+number_invoices = 0
+today = ''
 
 
 def click_button(num):
@@ -99,6 +103,52 @@ def total():
     var_tax.set(f'{round(total_tax, 2)} €')
     var_total.set(f'{round(total, 2)} €')
 
+def generate_number_invoice():
+    global number_invoices
+    global today
+    number_invoices += 1
+    date = datetime.date.today().strftime('%Y%m%d')
+    date_today = datetime.date.today().strftime('%Y-%m-%d')
+    if date_today != today:
+        today = date_today
+        number_invoices = 0
+    return f'{date}{number_invoices}'
+
+
+def invoice():
+    date = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    text_invoice.delete(1.0, END)
+    num_invoice = f'N#-{generate_number_invoice()}'
+    date_invoice = f'{date}'
+    text_invoice.insert(END, f'R: {num_invoice}\t\t        fecha:{date_invoice}\n')
+    text_invoice.insert(END, f'*' * 56 + '\n')
+    text_invoice.insert(END, 'Items\t\tCant.\tCosto  Items\n')
+    text_invoice.insert(END, f'-' * 56 + '\n')
+
+    x = 0
+    for food in text_food:
+        if food.get() != '0':
+            text_invoice.insert(END, f'{food_list[x]}\t\t{food.get()}\t'
+                                     f'{round(float(food.get()) * price_food[x], 2)} €\n')
+            x += 1
+
+    x = 0
+    for drink in text_drink:
+        if drink.get() != '0':
+            text_invoice.insert(END, f'{drinks_list[x]}\t\t{drink.get()}\t'
+                                     f'{round(float(drink.get()) * price_drink[x], 2)} €\n')
+            x += 1
+    x = 0
+    for dessert in text_dessert:
+        if dessert.get() != '0':
+            text_invoice.insert(END, f'{desserts_list[x]}\t\t{dessert.get()}\t'
+                                     f'{round(float(dessert.get()) * price_dessert[x], 2)} €\n')
+            x += 1
+
+    text_invoice.insert(END, f'-' * 56 +'\n')
+    text_invoice.insert(END, f'Costo: \t\t\t{var_subtotal.get()}\n')
+    text_invoice.insert(END, f'Tax: \t\t\t{var_subtotal.get()}\n\n')
+    text_invoice.insert(END, f'Total: \t\t\t{var_total.get()}\n')
 
 # Init tkinter
 app = Tk()
@@ -411,6 +461,8 @@ for button in buttons:
                 column=column)
     column += 1
 created_buttons[0].config(command=total)
+created_buttons[1].config(command=invoice)
+
 
 # invoice
 text_invoice = Text(invoice_panel,
