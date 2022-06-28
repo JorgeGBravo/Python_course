@@ -378,6 +378,7 @@ for dessert in desserts_list:
     frame_dessert[count].grid(row=count,
                               column=1)
     count += 1
+
 # variables
 var_food_cost = StringVar()
 var_drink_cost = StringVar()
