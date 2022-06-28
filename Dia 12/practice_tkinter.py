@@ -1,7 +1,12 @@
+from pathlib import Path
 from tkinter import *
-import random
 import datetime
+from tkinter import filedialog, messagebox
 
+
+home_dir = Path.cwd()
+last_invoice = ''
+print(home_dir )
 operator = ''
 tax = 0.4
 price_food = [1.32, 1.65, 2.31, 3.22, 1.22, 1.99, 2.05, 2.65, 1.2]
@@ -116,9 +121,12 @@ def generate_number_invoice():
 
 
 def invoice():
+    global last_invoice
     date = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     text_invoice.delete(1.0, END)
-    num_invoice = f'N#-{generate_number_invoice()}'
+    invoice_number = generate_number_invoice()
+    last_invoice = invoice_number
+    num_invoice = f'N#-{invoice_number}'
     date_invoice = f'{date}'
     text_invoice.insert(END, f'R: {num_invoice}\t\t        fecha:{date_invoice}\n')
     text_invoice.insert(END, f'*' * 56 + '\n')
@@ -145,10 +153,18 @@ def invoice():
                                      f'{round(float(dessert.get()) * price_dessert[x], 2)} €\n')
             x += 1
 
-    text_invoice.insert(END, f'-' * 56 +'\n')
+    text_invoice.insert(END, f'-' * 56 + '\n')
     text_invoice.insert(END, f'Costo: \t\t\t{var_subtotal.get()}\n')
     text_invoice.insert(END, f'Tax: \t\t\t{var_subtotal.get()}\n\n')
     text_invoice.insert(END, f'Total: \t\t\t{var_total.get()}\n')
+
+def save_invoice():
+    global last_invoice
+    info_invoice = text_invoice.get(1.0, END)
+    file = filedialog.asksaveasfile(mode='w', initialdir=home_dir, initialfile=last_invoice, defaultextension='.txt', )
+    file.write(info_invoice)
+    file.close()
+    messagebox.showinfo('Informacion', 'Recibo guardado')
 
 # Init tkinter
 app = Tk()
@@ -462,6 +478,7 @@ for button in buttons:
     column += 1
 created_buttons[0].config(command=total)
 created_buttons[1].config(command=invoice)
+created_buttons[2].config(command=save_invoice)
 
 
 # invoice
