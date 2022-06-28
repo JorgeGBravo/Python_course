@@ -166,6 +166,38 @@ def save_invoice():
     file.close()
     messagebox.showinfo('Informacion', 'Recibo guardado')
 
+
+def reset():
+    text_invoice.delete(0.1, END)
+    for text in text_food:
+        text.set('0')
+    for text in text_drink:
+        text.set('0')
+    for text in text_dessert:
+        text.set('0')
+
+    for frame in frame_food:
+        frame.config(state=DISABLED)
+    for frame in frame_drink:
+        frame.config(state=DISABLED)
+    for frame in frame_dessert:
+        frame.config(state=DISABLED)
+
+    for v in var_food:
+        v.set(0)
+    for v in var_drink:
+        v.set(0)
+    for v in var_dessert:
+        v.set(0)
+
+    var_food_cost.set('')
+    var_drink_cost.set('')
+    var_dessert_cost.set('')
+    var_subtotal.set('')
+    var_tax.set('')
+    var_total.set('')
+
+
 # Init tkinter
 app = Tk()
 # size app
@@ -479,6 +511,7 @@ for button in buttons:
 created_buttons[0].config(command=total)
 created_buttons[1].config(command=invoice)
 created_buttons[2].config(command=save_invoice)
+created_buttons[3].config(command=reset)
 
 
 # invoice
