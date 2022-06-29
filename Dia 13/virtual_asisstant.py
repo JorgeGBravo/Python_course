@@ -9,7 +9,6 @@ import wikipedia
 
 
 # Listen mic and devolver audio as text
-
 def change_audio_as_text():
     # save recognizer in var
     r = sr.Recognizer()
@@ -42,4 +41,12 @@ def change_audio_as_text():
         return 'It could not be'
 
 
-change_audio_as_text()
+# assistant speak
+def speak(message):
+    # Turn on engine pyttsx3
+    engine = pyttsx3.init()
+    # pronounce message
+    engine.say(message)
+    engine.runAndWait()
+
+speak('Hola como estas ')
