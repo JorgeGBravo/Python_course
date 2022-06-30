@@ -45,8 +45,23 @@ def change_audio_as_text():
 def speak(message):
     # Turn on engine pyttsx3
     engine = pyttsx3.init()
+    engine.setProperty('voice', idSpanish)
     # pronounce message
     engine.say(message)
     engine.runAndWait()
 
-speak('Hola como estas ')
+
+'''
+# know what voices are in the system
+
+
+engine = pyttsx3.init()
+
+for idiom in engine.getProperty('voices'):
+    print(idiom)
+'''
+
+idSpanish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_ES-ES_HELENA_11.0'
+idEnglish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0'
+
+speak('Hello world')
