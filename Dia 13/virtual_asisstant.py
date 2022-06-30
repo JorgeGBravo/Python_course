@@ -84,6 +84,7 @@ def get_day():
     # say day of week
     speak(f'Today is {calendar[week_day]}')
 
+
 def time_now():
     # var whit data of hour
     date_time = datetime.datetime.now()
@@ -91,3 +92,17 @@ def time_now():
 
     speak(hour)
 
+
+def initial_greeting():
+    hour = datetime.datetime.now()
+    if hour.hour < 6 or hour.hour > 20:
+        moment = 'Good night'
+    elif hour.hour >= 6 and hour.hour < 13:
+        moment = 'Good Morning'
+    else:
+        moment = 'Good evening'
+
+    speak(f'{moment}, I´m Helena, your personal assistant. Tell me where I can help you')
+
+
+initial_greeting()
