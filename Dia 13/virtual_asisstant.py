@@ -7,6 +7,10 @@ import webbrowser
 import datetime
 import wikipedia
 
+# Idioms
+idSpanish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_ES-ES_HELENA_11.0'
+idEnglish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0'
+
 
 # Listen mic and devolver audio as text
 def change_audio_as_text():
@@ -45,7 +49,7 @@ def change_audio_as_text():
 def speak(message):
     # Turn on engine pyttsx3
     engine = pyttsx3.init()
-    engine.setProperty('voice', idSpanish)
+    engine.setProperty('voice', idEnglish)
     # pronounce message
     engine.say(message)
     engine.runAndWait()
@@ -60,9 +64,7 @@ engine = pyttsx3.init()
 for idiom in engine.getProperty('voices'):
     print(idiom)
 '''
-# Idioms
-idSpanish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_ES-ES_HELENA_11.0'
-idEnglish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0'
+
 
 def get_day():
     day = datetime.date.today()
@@ -82,4 +84,10 @@ def get_day():
     # say day of week
     speak(f'Today is {calendar[week_day]}')
 
-get_day()
+def time_now():
+    # var whit data of hour
+    date_time = datetime.datetime.now()
+    hour = f'The time is {date_time.hour} hour and {date_time.minute} minute'
+
+    speak(hour)
+
