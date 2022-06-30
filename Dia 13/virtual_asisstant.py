@@ -105,4 +105,22 @@ def initial_greeting():
     speak(f'{moment}, I´m Helena, your personal assistant. Tell me where I can help you')
 
 
-initial_greeting()
+def ask_for_things():
+    initial_greeting()
+
+    init = True
+    while init:
+        # Active mic
+        order = change_audio_as_text()
+
+        if 'open YouTube' in order:
+            speak('I´m will open youtube for you')
+            webbrowser.open('https://www.youtube.com/')
+            continue
+        elif 'open browser' in order:
+            webbrowser.open('https://www.google.com')
+            continue
+
+
+ask_for_things()
+
