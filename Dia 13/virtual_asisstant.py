@@ -60,8 +60,26 @@ engine = pyttsx3.init()
 for idiom in engine.getProperty('voices'):
     print(idiom)
 '''
-
+# Idioms
 idSpanish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_ES-ES_HELENA_11.0'
 idEnglish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0'
 
-speak('Hello world')
+def get_day():
+    day = datetime.date.today()
+    print(day)
+    week_day = day.weekday()
+    print(week_day)
+
+    # dic with name of days
+    calendar = {0: 'Monday',
+                1: 'Tuesday',
+                2: 'Wednesday',
+                3: 'Thursday',
+                4: 'Friday',
+                5: 'Saturday',
+                6: 'Sunday'}
+
+    # say day of week
+    speak(f'Today is {calendar[week_day]}')
+
+get_day()
