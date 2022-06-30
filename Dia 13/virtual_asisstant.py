@@ -89,7 +89,6 @@ def time_now():
     # var whit data of hour
     date_time = datetime.datetime.now()
     hour = f'The time is {date_time.hour} hour and {date_time.minute} minute'
-
     speak(hour)
 
 
@@ -112,13 +111,24 @@ def ask_for_things():
     while init:
         # Active mic
         order = change_audio_as_text()
+        split_order = order.split(' ')
 
-        if 'open YouTube' in order:
-            speak('I´m will open youtube for you')
-            webbrowser.open('https://www.youtube.com/')
-            continue
-        elif 'open browser' in order:
-            webbrowser.open('https://www.google.com')
+        if 'open' in split_order[0]:
+            if 'YouTube' in split_order[1]:
+                speak('I´m will open youtube for you')
+                webbrowser.open('https://www.youtube.com/')
+                continue
+            elif 'browser' in split_order[1]:
+                webbrowser.open('https://www.google.com')
+                continue
+
+        elif 'search' in split_order[0]:
+            speak('I´m looking for you')
+            search = order.split(' ', 1)[1]
+            webbrowser.open(f'https://www.google.com/search?q={search}')
+
+        elif 'what time is it' in order:
+            time_now()
             continue
 
 
