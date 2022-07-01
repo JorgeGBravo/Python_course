@@ -80,21 +80,8 @@ def time_now():
     speak(hour(date_time))
 
 
-def initial_greeting():
-    hour = datetime.datetime.now()
-    if hour.hour < 6 or hour.hour > 20:
-        moment = 'Good night'
-    elif hour.hour >= 6 and hour.hour < 13:
-        moment = 'Good Morning'
-    else:
-        moment = 'Good evening'
-
-    speak(f'{moment}, I´m Helena, your personal assistant. Tell me where I can help you')
-
-
 def ask_for_things():
-    initial_greeting()
-
+    speak(initial_greeting())
     init = True
     while init:
         # Active mic

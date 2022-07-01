@@ -1,4 +1,6 @@
 from config import language
+import datetime
+
 
 
 english = 'en-GB'
@@ -51,3 +53,26 @@ def hour(date_time):
         return f'The time is {date_time.hour} hour and {date_time.minute} minute'
     elif language.lower() == 'spanish':
         return f'La hora es {date_time.hour} horas y {date_time.minute} minutos'
+
+
+def initial_greeting():
+    hour = datetime.datetime.now()
+    if language.lower() == 'spanish':
+        if hour.hour < 6 or hour.hour > 20:
+            moment = 'Buenos dias'
+        elif hour.hour >= 6 and hour.hour < 13:
+            moment = 'Buenos dias'
+        else:
+            moment = 'Buenas tardes'
+
+        return f'{moment}, Soy Helena, tu asistente personal. Dime en que te puedo ayudar'
+
+    else:
+        if hour.hour < 6 or hour.hour > 20:
+            moment = 'Good night'
+        elif hour.hour >= 6 and hour.hour < 13:
+            moment = 'Good morning'
+        else:
+            moment = 'Good evening'
+
+        return f'{moment}, I´m Zira, your personal assistant. Tell me where I can help you'
