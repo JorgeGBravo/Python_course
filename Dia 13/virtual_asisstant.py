@@ -6,10 +6,9 @@ import pyjokes
 import webbrowser
 import datetime
 import wikipedia
+from languages import *
 
-# Idioms
-idSpanish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_ES-ES_HELENA_11.0'
-idEnglish = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0'
+var_language = language_control()
 
 
 # Listen mic and devolver audio as text
@@ -28,7 +27,7 @@ def change_audio_as_text():
 
     try:
         # search in google as text
-        order = r.recognize_google(audio, language='es-ES')
+        order = r.recognize_google(audio, language=var_language[0])
         # test ok
         print('Said: ' + order)
         return order
@@ -49,7 +48,7 @@ def change_audio_as_text():
 def speak(message):
     # Turn on engine pyttsx3
     engine = pyttsx3.init()
-    engine.setProperty('voice', idEnglish)
+    engine.setProperty('voice', var_language[1])
     # pronounce message
     engine.say(message)
     engine.runAndWait()
@@ -71,25 +70,14 @@ def get_day():
     print(day)
     week_day = day.weekday()
     print(week_day)
-
-    # dic with name of days
-    calendar = {0: 'Monday',
-                1: 'Tuesday',
-                2: 'Wednesday',
-                3: 'Thursday',
-                4: 'Friday',
-                5: 'Saturday',
-                6: 'Sunday'}
-
     # say day of week
-    speak(f'Today is {calendar[week_day]}')
+    speak(speak_day(week_day))
 
 
 def time_now():
     # var whit data of hour
     date_time = datetime.datetime.now()
-    hour = f'The time is {date_time.hour} hour and {date_time.minute} minute'
-    speak(hour)
+    speak(hour(date_time))
 
 
 def initial_greeting():
@@ -111,6 +99,7 @@ def ask_for_things():
     while init:
         # Active mic
         order = change_audio_as_text()
+        print(f'en order: {order}')
         split_order = order.split(' ')
 
         if 'open' in split_order[0]:
@@ -129,6 +118,13 @@ def ask_for_things():
 
         elif 'what time is it' in order:
             time_now()
+            continue
+
+        elif 'what is' in order:
+            search = order.split('what is', 1)[1]
+            result = wikipedia.search(search)
+            print(result)
+            speak(result[0])
             continue
 
 
