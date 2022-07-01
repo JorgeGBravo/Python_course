@@ -1,5 +1,7 @@
+import webbrowser
 from config import language
 import datetime
+
 
 
 
@@ -70,9 +72,12 @@ def initial_greeting():
     else:
         if hour.hour < 6 or hour.hour > 20:
             moment = 'Good night'
-        elif hour.hour >= 6 and hour.hour < 13:
+        elif hour.hour < 13 and hour.hour >= 6 :
             moment = 'Good morning'
         else:
             moment = 'Good evening'
 
         return f'{moment}, I´m Zira, your personal assistant. Tell me where I can help you'
+
+
+
