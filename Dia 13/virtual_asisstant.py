@@ -49,5 +49,6 @@ def ask_for_things():
             financial_information()
             continue
 
+
 ask_for_things()
 

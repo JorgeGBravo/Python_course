@@ -8,6 +8,7 @@ import webbrowser
 import datetime
 import wikipedia
 from languages import *
+from wallet import wallet
 
 var_language = language_control()
 '''
@@ -20,6 +21,7 @@ for idiom in engine.getProperty('voices'):
     print(idiom)
 '''
 
+
 # Listen mic and devolver audio as text
 def change_audio_as_text():
     # save recognizer in var
@@ -28,7 +30,7 @@ def change_audio_as_text():
     # config mic
     with sr.Microphone() as origen:
         # time to pause
-        r.pause_threshold = 0.2
+        r.pause_threshold = 0.8
         # inform init the recorder
         print('Start talking...')
         # save the audio
@@ -110,12 +112,29 @@ def play_search(search):
 
 
 def play_joke():
-    speak(pyjokes.get_joke('es'))
-
-
-def financial_information(order):
-    search = change_audio_as_text()
     if language == 'spanish':
-        pass
+        speak(pyjokes.get_joke('es'))
     else:
-        pass
+        speak(pyjokes.get_joke('en'))
+
+
+def financial_information():
+    search = change_audio_as_text()
+    print(search)
+    split_0 = search.split(' ')[0]
+    split_1 = search.split(' ')[1]
+    if language == 'spanish':
+        if split_0 == 'precio':
+            search_action = wallet[split_1]
+            search_valor = yf.Ticker(search_action)
+            actual_price = search_valor.info['regularMarketPrice']
+            speak(f'El precio actual de {split_1} es {actual_price}')
+            speak(f'El ultimo titular es: {search_valor.news[0]["title"]}')
+
+    else:
+        if split_1 == 'price':
+            search_action = wallet[split_0]
+            search_valor = yf.Ticker(search_action)
+            actual_price = search_valor.info['regularMarketPrice']
+            speak(f'The current price of {split_0} is {actual_price}')
+            speak(f'the latest headline is: {search_valor.news[0]["title"]}')
