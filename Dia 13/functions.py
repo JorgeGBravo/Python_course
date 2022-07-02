@@ -9,7 +9,6 @@ import datetime
 import wikipedia
 from languages import *
 
-
 var_language = language_control()
 '''
 # know what voices are in the system
@@ -21,7 +20,6 @@ for idiom in engine.getProperty('voices'):
     print(idiom)
 '''
 
-
 # Listen mic and devolver audio as text
 def change_audio_as_text():
     # save recognizer in var
@@ -30,7 +28,7 @@ def change_audio_as_text():
     # config mic
     with sr.Microphone() as origen:
         # time to pause
-        r.pause_threshold = 0.8
+        r.pause_threshold = 0.2
         # inform init the recorder
         print('Start talking...')
         # save the audio
@@ -88,11 +86,36 @@ def google_browser():
     webbrowser.open('https://www.google.com')
 
 
-def google_search(search):
-    webbrowser.open(f'https://www.google.com/search?q={search}')
+def pywhatkit_search(search):
+    pywhatkit.search(search)
 
 
 def wiki_search(search):
-    result = wikipedia.search(search)
-    print(result)
-    speak(result[0])
+    if language == 'spanish':
+        speak('Buscando...')
+        wikipedia.set_lang('es')
+        result = wikipedia.summary(search, sentences=1)
+        speak('Esto es lo que he encontrado...')
+    else:
+        speak('Searching...')
+        wikipedia.set_lang('en')
+        result = wikipedia.summary(search, sentences=1)
+        speak('This is what I found...')
+
+    speak(result)
+
+
+def play_search(search):
+    pywhatkit.playonyt(search)
+
+
+def play_joke():
+    speak(pyjokes.get_joke('es'))
+
+
+def financial_information(order):
+    search = change_audio_as_text()
+    if language == 'spanish':
+        pass
+    else:
+        pass

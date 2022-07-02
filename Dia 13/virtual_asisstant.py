@@ -18,11 +18,14 @@ def ask_for_things():
             elif 'browser' in split_order[1]:
                 google_browser()
                 continue
+
         elif 'search' in split_order[0]:
             speak('I´m looking for you')
             search = order.split(' ', 1)[1]
-            google_search(search)
+            # search = order.replace('search', '')
+            pywhatkit_search(search)
             continue
+
         elif 'what time is it' in order:
             time_now()
             continue
@@ -32,6 +35,19 @@ def ask_for_things():
             wiki_search(search)
             continue
 
+        elif 'play' in split_order[0]:
+            speak('Good idea, i start to play it')
+            search = order.split('play', 1)[1]
+            play_search(search)
+            continue
+
+        elif 'Tell me a joke' in order:
+            play_joke()
+            continue
+
+        elif 'financial information' in order:
+            financial_information()
+            continue
 
 ask_for_things()
 
