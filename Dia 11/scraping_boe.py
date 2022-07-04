@@ -10,14 +10,18 @@ def soap_result(url, label):
 
 date = datetime.datetime.now().strftime('%Y%m%d')
 url_boe = f'https://boe.es/diario_boe/xml.php?id=BOE-S-{date}'
-
 result = soap_result(url_boe, 'sumario')
-search = input('Busqueda: ')
 
+if len(result) == 0:
+    print('Introduce una fecha anterior con el siguiente formato AAAAMMDD')
+    date = input('Dia: ')
+    url_boe = f'https://boe.es/diario_boe/xml.php?id=BOE-S-{date}'
+    result = soap_result(url_boe, 'sumario')
+
+search = input('Busqueda: ')
 for seccion in result:
     departamento = seccion.select('departamento')
     for epigrafe in departamento:
-        #print(epigrafe['nombre'])
         items = epigrafe.select('item')
         for item in items:
             titulo = item.select('titulo')[0]
@@ -25,20 +29,18 @@ for seccion in result:
                 str_titulo = str(titulo)
                 if search.lower() in str_titulo.lower():
                     print(f'id : {item["id"]}')
-                    #print(f'control : {item["control"]}')
                     print(f'titulo : {titulo.string}')
                     url_search = (f'https://boe.es{item.urlXml.string}')
                     url_pdf = (f'https://boe.es{item.urlPdf.string}')
                     print(f'url : {url_pdf}')
                     search_result = soap_result(url_search, 'p')
                     for line in search_result:
-                        print(line.string)
+                        print(line.string.center(20, ' '))
                     print('-' * 20)
 
 
             else:
                 print(f'id : {item["id"]}')
-                # print(f'control : {item["control"]}')
                 print(f'titulo : {titulo.string}')
                 url_search = (f'https://boe.es{item.urlXml.string}')
                 print(f'url : {url_search}')
