@@ -1,7 +1,6 @@
-import webbrowser
+from functions import *
 from config import language
 import datetime
-
 
 
 
@@ -80,4 +79,19 @@ def initial_greeting():
         return f'{moment}, I´m Zira, your personal assistant. Tell me where I can help you'
 
 
+def speak_what_are_you_looking_for():
+    if language.lower() == 'spanish':
+        speak('¿Dime lo que buscas?')
+    else:
+        speak('Tell me what you are looking for')
 
+
+def speak_repeat_what_you_are_looking(count):
+    if language.lower() == 'spanish':
+        if count:
+            speak('Sigo sin entenderte')
+        speak('Por favor, puedes decirme de nuevo lo que buscas')
+    else:
+        if count:
+            speak('I still do not understand you')
+        speak('Please can you tell me again what you are looking for')

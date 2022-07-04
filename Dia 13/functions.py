@@ -93,7 +93,7 @@ def pywhatkit_search(search):
 
 
 def wiki_search(search):
-    if language == 'spanish':
+    if language.lower() == 'spanish':
         speak('Buscando...')
         wikipedia.set_lang('es')
         result = wikipedia.summary(search, sentences=1)
@@ -112,29 +112,46 @@ def play_search(search):
 
 
 def play_joke():
-    if language == 'spanish':
+    if language.lower() == 'spanish':
         speak(pyjokes.get_joke('es'))
     else:
         speak(pyjokes.get_joke('en'))
 
 
 def financial_information():
-    search = change_audio_as_text()
-    print(search)
-    split_0 = search.split(' ')[0]
-    split_1 = search.split(' ')[1]
-    if language == 'spanish':
-        if split_0 == 'precio':
-            search_action = wallet[split_1]
-            search_valor = yf.Ticker(search_action)
-            actual_price = search_valor.info['regularMarketPrice']
-            speak(f'El precio actual de {split_1} es {actual_price}')
-            speak(f'El ultimo titular es: {search_valor.news[0]["title"]}')
+    speak_what_are_you_looking_for()
+    count = False
+    while True:
+        speak_repeat_what_you_are_looking(count)
+        search = change_audio_as_text()
+        print(search)
+        split_0 = search.split(' ')[0]
+        split_1 = search.split(' ')[1]
+        if language.lower() == 'spanish':
+            if split_0 == 'precio':
+                try:
+                    search_action = wallet[split_1]
+                    search_valor = yf.Ticker(search_action)
+                    actual_price = search_valor.info['regularMarketPrice']
+                    speak(f'El precio actual de {split_1} es {actual_price}')
+                    speak(f'El ultimo titular es: {search_valor.news[0]["title"]}')
+                    return
 
-    else:
-        if split_1 == 'price':
-            search_action = wallet[split_0]
-            search_valor = yf.Ticker(search_action)
-            actual_price = search_valor.info['regularMarketPrice']
-            speak(f'The current price of {split_0} is {actual_price}')
-            speak(f'the latest headline is: {search_valor.news[0]["title"]}')
+                except:
+                    count = True
+                    speak('No he encontrado lo que andas buscando')
+
+        else:
+            if split_1 == 'price':
+                try:
+                    search_action = wallet[split_0]
+                    search_valor = yf.Ticker(search_action)
+                    actual_price = search_valor.info['regularMarketPrice']
+                    speak(f'The current price of {split_0} is {actual_price}')
+                    speak(f'the latest headline is: {search_valor.news[0]["title"]}')
+                    return
+                except:
+                    count = True
+                    speak("I can't find what you were looking for")
+
+
