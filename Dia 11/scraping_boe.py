@@ -1,12 +1,18 @@
 import bs4
 import requests
+import datetime
+
+def soap_result(url, label):
+    result = requests.get(url)
+    soup = bs4.BeautifulSoup(result.text, 'xml')
+    return soup.select(label)
 
 
-url_boe = 'https://boe.es/diario_boe/xml.php?id=BOE-S-20141006'
+date = datetime.datetime.now().strftime('%Y%m%d')
+url_boe = f'https://boe.es/diario_boe/xml.php?id=BOE-S-{date}'
 
-result = requests.get(url_boe)
-soup = bs4.BeautifulSoup(result.text, 'xml')
-result = soup.select('sumario')
+result = soap_result(url_boe, 'sumario')
+search = input('Busqueda: ')
 
 for seccion in result:
     departamento = seccion.select('departamento')
@@ -14,8 +20,25 @@ for seccion in result:
         #print(epigrafe['nombre'])
         items = epigrafe.select('item')
         for item in items:
-            print(f'id : {item["id"]}')
-            print(f'control : {item["control"]}')
             titulo = item.select('titulo')[0]
-            print(f'titulo : {titulo.string}')
-            print(f'url : https://boe.es{item.urlXml.string}')
+            if len(search) != 0:
+                str_titulo = str(titulo)
+                if search.lower() in str_titulo.lower():
+                    print(f'id : {item["id"]}')
+                    #print(f'control : {item["control"]}')
+                    print(f'titulo : {titulo.string}')
+                    url_search = (f'https://boe.es{item.urlXml.string}')
+                    url_pdf = (f'https://boe.es{item.urlPdf.string}')
+                    print(f'url : {url_pdf}')
+                    search_result = soap_result(url_search, 'p')
+                    for line in search_result:
+                        print(line.string)
+                    print('-' * 20)
+
+
+            else:
+                print(f'id : {item["id"]}')
+                # print(f'control : {item["control"]}')
+                print(f'titulo : {titulo.string}')
+                url_search = (f'https://boe.es{item.urlXml.string}')
+                print(f'url : {url_search}')

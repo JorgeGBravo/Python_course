@@ -157,8 +157,3 @@ def financial_information():
                     count = True
                     speak("I can't find what you were looking for")
                     continue
-
-
-
-
-
