@@ -1,14 +1,13 @@
-import webbrowser
 import pyttsx3
 import speech_recognition as sr
 import pywhatkit
 import yfinance as yf
 import pyjokes
 import webbrowser
-import datetime
 import wikipedia
-from languages import *
+import datetime
 from wallet import wallet
+from languages import *
 
 var_language = language_control()
 '''
@@ -121,7 +120,9 @@ def play_joke():
 def financial_information():
     speak_what_are_you_looking_for()
     count = False
-    while True:
+    condition = True
+    while condition:
+        print('en iformacion')
         speak_repeat_what_you_are_looking(count)
         search = change_audio_as_text()
         print(search)
@@ -135,11 +136,12 @@ def financial_information():
                     actual_price = search_valor.info['regularMarketPrice']
                     speak(f'El precio actual de {split_1} es {actual_price}')
                     speak(f'El ultimo titular es: {search_valor.news[0]["title"]}')
-                    return
+                    condition = False
 
                 except:
                     count = True
                     speak('No he encontrado lo que andas buscando')
+                    continue
 
         else:
             if split_1 == 'price':
@@ -149,9 +151,14 @@ def financial_information():
                     actual_price = search_valor.info['regularMarketPrice']
                     speak(f'The current price of {split_0} is {actual_price}')
                     speak(f'the latest headline is: {search_valor.news[0]["title"]}')
-                    return
+                    condition = False
+
                 except:
                     count = True
                     speak("I can't find what you were looking for")
+                    continue
+
+
+
 
 
