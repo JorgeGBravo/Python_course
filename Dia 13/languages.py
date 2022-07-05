@@ -71,6 +71,9 @@ def spanish_as_for_things():
             financial_information()
             continue
 
+        elif 'hasta luego' or 'adios' or 'nos vemos' in order:
+            speak('Nos vemos, cualquier cosa que necesites me avisas')
+            break
 
 def english_as_for_things():
     init = True
@@ -118,6 +121,10 @@ def english_as_for_things():
         elif 'financial information' in order:
             financial_information()
             continue
+
+        elif 'bye' or 'goodbye' or 'see you' in order:
+            speak('See you, anything you need let me know')
+            break
 
 
 def speak_day(week_day):
