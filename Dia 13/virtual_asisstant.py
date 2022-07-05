@@ -10,4 +10,3 @@ def ask_for_things():
 
 
 ask_for_things()
-

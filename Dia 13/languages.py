@@ -75,6 +75,7 @@ def spanish_as_for_things():
             speak('Nos vemos, cualquier cosa que necesites me avisas')
             break
 
+
 def english_as_for_things():
     init = True
     while init:
@@ -189,10 +190,12 @@ def speak_repeat_what_you_are_looking(count):
             speak('I still do not understand you')
         speak('Please can you tell me again what you are looking for')
 
+
 def speak_what_are_you_looking_for():
     if language.lower() == 'spanish':
         speak('¿Dime lo que buscas?')
     else:
         speak('Tell me what you are looking for')
+
 
 from functions import *
