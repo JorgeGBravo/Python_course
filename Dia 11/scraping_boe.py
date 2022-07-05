@@ -2,6 +2,7 @@ import bs4
 import requests
 import datetime
 
+
 def soap_result(url, label):
     result = requests.get(url)
     soup = bs4.BeautifulSoup(result.text, 'xml')
