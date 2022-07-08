@@ -30,17 +30,24 @@ cv2.rectangle(photo_test,
               2)
 
 # face comparison
-tolerance = 0.3  # default tolerance 0.6
+tolerance = 0.6  # default tolerance 0.6
 result = fr.compare_faces([codify_face_A], codify_face_B, tolerance)
-print(result)
+
+# distance measurements
+distance = fr.face_distance([codify_face_A], codify_face_B)
+
+# view results
+cv2.putText(photo_control,
+            f'{result} {distance.round(2)}',
+            (50, 50),
+            cv2.FONT_HERSHEY_COMPLEX,
+            1,
+            (0, 255, 0),
+            2)
 
 # view images
 cv2.imshow('photo_control', photo_control)
 cv2.imshow('photo_prueba', photo_test)
-
-# distance measurements
-distance = fr.face_distance([codify_face_A], codify_face_B)
-print(distance)
 
 # keep program open
 cv2.waitKey(0)
