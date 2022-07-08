@@ -3,7 +3,7 @@ import face_recognition as fr
 
 # upload images
 photo_control = fr.load_image_file('image_b.jpg')
-photo_test = fr.load_image_file('image_a.jpg')
+photo_test = fr.load_image_file('image_c.png')
 
 # translate photo to rgb
 photo_control = cv2.cvtColor(photo_control, cv2.COLOR_BGR2RGB)
@@ -28,6 +28,10 @@ cv2.rectangle(photo_test,
               (site_face_B[1], site_face_B[2]),
               (0, 255, 0),
               2)
+
+# face comparison
+result = fr.compare_faces([codify_face_A], codify_face_B)
+print(result)
 
 # view images
 cv2.imshow('photo_control', photo_control)
