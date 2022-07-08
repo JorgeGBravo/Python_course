@@ -3,7 +3,7 @@ import face_recognition as fr
 
 # upload images
 photo_control = fr.load_image_file('image_b.jpg')
-photo_test = fr.load_image_file('image_c.png')
+photo_test = fr.load_image_file('image_a.jpg')
 
 # translate photo to rgb
 photo_control = cv2.cvtColor(photo_control, cv2.COLOR_BGR2RGB)
@@ -30,12 +30,17 @@ cv2.rectangle(photo_test,
               2)
 
 # face comparison
-result = fr.compare_faces([codify_face_A], codify_face_B)
+tolerance = 0.3  # default tolerance 0.6
+result = fr.compare_faces([codify_face_A], codify_face_B, tolerance)
 print(result)
 
 # view images
 cv2.imshow('photo_control', photo_control)
 cv2.imshow('photo_prueba', photo_test)
+
+# distance measurements
+distance = fr.face_distance([codify_face_A], codify_face_B)
+print(distance)
 
 # keep program open
 cv2.waitKey(0)
