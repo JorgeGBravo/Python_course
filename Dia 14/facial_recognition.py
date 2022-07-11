@@ -42,7 +42,7 @@ cv2.putText(photo_control,
             (50, 50),
             cv2.FONT_HERSHEY_COMPLEX,
             1,
-            (0, 255, 0),
+            (0, 255, 0),  # this data can be modified by representing a color depending on the result
             2)
 
 # view images
