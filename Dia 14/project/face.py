@@ -5,6 +5,7 @@ query_create_table = '''CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY
 query_insert_users = '''INSERT INTO Users (name, surname, photo) VALUES (?,?,?)'''
 query_select_photos = '''SELECT photo FROM Users '''
 query_select_last_user = '''SELECT * FROM Users order by id desc Limit 1'''
+query_select_users = '''SELECT * FROM Users'''
 
 
 def view_last_user():
@@ -31,5 +32,9 @@ class Face:
     @staticmethod
     def list_photos():
         con = sqlite3.connect('userDataBase.sqlite')
-        photos = con.execute(query_select_photos)
-        return photos
+        return con.execute(query_select_photos)
+
+    @staticmethod
+    def list_users():
+        con = sqlite3.connect('userDataBase.sqlite')
+        return con.execute(query_select_users)
