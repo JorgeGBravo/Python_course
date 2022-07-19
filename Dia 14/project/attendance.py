@@ -1,6 +1,8 @@
 from cv2 import cv2
 import face_recognition as fr
 from face import Face
+from PIL import Image
+import numpy as np
 from pathlib import Path
 
 
@@ -22,4 +24,5 @@ list = Face.list_users()
 
 for user in list:
     name = f'{user[1]} {user[2]}'
-    photo = encode(user[2])
+    image = np.array(Image.open(user[3]))
+    photo = encode(image)
