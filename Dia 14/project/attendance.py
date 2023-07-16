@@ -3,12 +3,8 @@ import face_recognition as fr
 from face import Face
 from PIL import Image
 import numpy as np
+from functions import *
 from pathlib import Path
-
-
-def encode(image):
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
-    return fr.face_encodings(image_rgb)
 
 
 photo_Juan_a = "C:/Users/jdgbr/PycharmProjects/pythonCourse/Dia 14/project/photos/image_a.jpg"
@@ -23,6 +19,11 @@ photo_Simon = "C:/Users/jdgbr/PycharmProjects/pythonCourse/Dia 14/project/photos
 list = Face.list_users()
 
 for user in list:
+    photo = fr.load_image_file(user[3])
+    photo_rgb = translate_to_rgb(photo)
+    photo_encode = encode(photo_rgb)
+
     name = f'{user[1]} {user[2]}'
-    image = np.array(Image.open(user[3]))
-    photo = encode(image)
+    cv2.imshow(name, photo_rgb)
+
+cv2.waitKey(0)
